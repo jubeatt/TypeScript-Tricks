@@ -19,11 +19,11 @@
 
 當你懶得爬官方文件時這招很方便。只要按下 `Command + i` 就會彈出所有可傳入的 props 給你參考，像這樣：
 
-![](https://hackmd.io/_uploads/rJGlmI3U2.gif)
+![check-type-of-props](/README-images/trigger-suggest-1.gif)
 
 或者是想查看一個 props 可傳入哪些值的時候也可以用（我自己最常用來看有哪些 Union Type）：
 
-![](https://hackmd.io/_uploads/SyoNmIhUn.gif)
+![trigger-suggest-2](/README-images/trigger-suggest-2.gif)
 
 > 註：這個功能在 VSCode 裡面叫做「Trigger Suggest」，如果要改快捷鍵可以用這個關鍵字去搜尋。
 
@@ -31,7 +31,7 @@
 
 這通常會用在**你已經確定好某一個 string 型別的值有哪些**時會用到，例如下面這個例子：
 
-![](https://hackmd.io/_uploads/rk30B83U3.gif)
+![view-edit-state](/README-images/view-edit-state.gif)
 
 這邊可以看到 Modal 中有兩個狀態，分別是「閱讀（view）」和「編輯（edit）」。
 
@@ -57,7 +57,7 @@ const DetailModal = () => {
 
 2\. 如果在更新 state 時不慎寫錯值，TS 會馬上告訴妳這邊有問題，不用擔心。
 
-![](https://hackmd.io/_uploads/HkeJKIn82.png)
+![union-error](/README-images/union-error.png)
 
 註：TS 說這邊只能傳入 `view` 或 `edit`，`create` 是不行的。
 
@@ -140,7 +140,7 @@ const myOptions = [
 
 其實很簡單，你只要先透過 `hover` 的方式來查看，再透過 VSCode 的 auto import 來引入就可以拿到正確的型別了，參考下面的示範：
 
-![](https://hackmd.io/_uploads/H1PtMwhUh.gif)
+![check-type-of-props](/README-images/check-type-of-props.gif)
 
 很簡單吧，就真的只有兩步而已：
 
@@ -149,7 +149,7 @@ const myOptions = [
 
 這樣子就可以確保型別是正確的，而且還有「型別提示」的好處，像這樣：
 
-![](https://hackmd.io/_uploads/ByJRmwnUn.gif)
+![auto-suggestion](/README-images/auto-suggestion.gif)
 
 我很喜歡這種提示的功能，因為看到提示你就可以確保這是「可以放的東西」，不用擔心會不會放錯東西（除非定義型別的人寫錯，但我自己還沒有遇過就是了）。
 
@@ -171,7 +171,7 @@ const FormComponent = (props: FormComponentProps) => {
 
 這樣子做有什麼問題？如果你試著用 `form.getFieldsValue()` 的話就會發現拿到的型別是 `any`：
 
-![](https://hackmd.io/_uploads/HyFO6Wi8n.png)
+![any-type](/README-images/any-type.png)
 
 當你看到 `any` 的時候可以懷疑一下「是不是有哪裡的型別沒設定好」，因為大多數情況下 `any` 只該出現在特定場景（例如 `error`，或是~~在趕專案的同事~~~）。
 
@@ -187,7 +187,7 @@ const [form] = useForm<formData>()
 
 在 hover 的時候可以看到像這樣的畫面：
 
-![](https://hackmd.io/_uploads/Hk0sCWiLn.png)
+![check-type-by-hover](/README-images/check-type-by-hover.png)
 
 接著仔細看這一段：
 
@@ -217,7 +217,7 @@ function App() {
 
 就不會再出現 any 型別，而是正確的表單值：
 
-![](https://hackmd.io/_uploads/r1CMGGsUn.png)
+![add-type-to-useFrom](/README-images//add-type-to-useFrom.png)
 
 這樣子你在操作表單的時候就能清楚知道有哪些值可以用。
 
@@ -239,7 +239,7 @@ const [isMarried, setIsMarried] = useState(false) // isMarried 的型別會自�
 
 如果是物件的話，TS 也一樣會幫你推導出來：
 
-![](https://hackmd.io/_uploads/HJBy-O2L2.png)
+![type-inference](/README-images/type-inference.png)
 
 知道這個後可以做什麼呢？別急嘛，我們先來看 `typeof` 是什麼。
 
@@ -271,9 +271,9 @@ const person = {
 
 接著我就可以用 `typeof` 去萃取出 `person` 的型別：
 
-![](https://hackmd.io/_uploads/rykwFdn8n.png)
+![typeof-useage](/README-images/typeof-useage.png)
 
-這樣子就免費獲得一個 `person` 的型別了！但我希望你注意到這邊的每一步流程是這樣子：
+這樣子就~~免費~~獲得一個 `person` 的型別了！但我希望你注意到這邊的每一步流程是這樣子：
 
 1. `person` 先透過 Type-Inference 自動推導出 `{name: string, ...}` 這個型別
 2. 利用 typeof 把 `person` 的型別給萃取出來，丟給 `PersonType`
@@ -371,7 +371,7 @@ const FormComponent = () => {
 
 如果你用 hover 來檢查一下就會發現跟剛剛是一模一樣的：
 
-![](https://hackmd.io/_uploads/BkODdi283.png)
+![typeof-demo](/README-images/typeof-demo.png)
 
 所以下次當你懶的自己建立型別時，就可以像這樣子觀察看看是不是有現成的型別能用，再搭配 `typeof` 來萃取，我覺得這會是一個蠻省時間的做法。
 
@@ -399,7 +399,7 @@ const FormComponent = (props: FormComponentProps) => {
 
 這是一個表單區塊的元件，實際大概長得像這樣子：
 
-![](https://hackmd.io/_uploads/H1mY9oh8n.png)
+![form-component-screenshot](/README-images/form-component-screenshot.png)
 
 我特別把按鈕的部分用紅線給框起來，是因為從前面的 `FormComponentProps` 應該能注意到有一些項目是「可選的」，如下：
 
@@ -475,7 +475,7 @@ type PersonKeys = keyof PersonType // 用在 PersonType 這個 "型別" 身上
 
 知道這個可以做什麼？我們留到下一段再來討論。這邊你只要先知道 `keyof` 可以用來「把一個物件的 key 給拿出來變成一個『Union Type』」就好，像這樣：
 
-![](https://hackmd.io/_uploads/r1K3Lqa8n.png)
+![keyof-useage](/README-images/keyof-useage.png)
 
 這樣子 `PersonKeys` 就會變成 `"name" | "age" | "isMarried"` 這個 Union Type，不過眼尖的話能應個會發現 `keyof PersonType` 還後面多了一段 `& string` 這個東西，這是什麼？
 
@@ -485,11 +485,11 @@ type PersonKeys = keyof PersonType // 用在 PersonType 這個 "型別" 身上
 - `number`
 - `symbol`
 
-![](https://hackmd.io/_uploads/HkH0v9TU3.png)
+![keyof-any](/README-images/keyof-any.png)
 
 所以用 `keyof` 的時候如果沒有用 `&` 來告訴 TS「這邊的 key 都是 `string`」的話，它是沒辦法確定的，你在用 hover 看型別的時候就不會顯示出 `"name" | "age" | "isMarried"`，而是 `keyof PersonType`：
 
-![](https://hackmd.io/_uploads/rJguu5TU2.png)
+![keyof-without-modifier](/README-images/keyof-without-%26.png)
 
 雖然這其實不會影響使用，但我自己比較喜歡在 hover 的時候就能看到所有值，所以會習慣加上 `& string` 來處理。
 
@@ -574,7 +574,7 @@ type DemoType = { [key in 'name' | 'nickname' | 'interesting']: string }
 
 所以套用了這個型別的變數就一定要符合這個條件，不然就會出現錯誤訊息：
 
-![](https://hackmd.io/_uploads/S1GDqnTIh.png)
+![mapped-type-error](/README-images/mapped-type-error.png)
 
 註：意思是 `DemoType` 中有 `name`、`nickname`、`interesting` 三個 key，但我們漏掉了 `interesting`。
 
@@ -761,7 +761,7 @@ type allFormKeys = keyof FormData & string // 用 keyof 把所有 FormData 的 k
 
 拿出來的結果會像這樣子：
 
-![](https://hackmd.io/_uploads/r14aYiaI3.png)
+![allKeys](/README-images/allKeys.png)
 
 搞定！不過在進入下一步之前，我們還有一件事得處理。就是我們實際上需要的 key 只有其實只有 `title` 和 `description` 而已（因為只有這兩個欄位有設定規則），`rate` 是多餘的，這時候該怎麼辦呢？
 
@@ -791,7 +791,7 @@ type theKeysWeNeed = Exclude<allFormKeys, 'rate'>
 1. hover 看型別
 2. 複製貼上後讓 VSCode 幫你做 auto import
 
-![](https://hackmd.io/_uploads/SJ3k-hTI3.gif)
+![get-form-item-rules-type](/README-images/get-form-item-rules-type.gif)
 
 註：做 auto import 的時候通常需要在 `.tsx` 檔案裡面才有辦法抓到路徑，所以這邊才開兩個視窗來處理。
 

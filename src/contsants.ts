@@ -1,13 +1,3 @@
-import { DefaultOptionType } from 'antd/es/select'
-
-export const starsOption: DefaultOptionType[] = [
-  { label: '1', value: 1 },
-  { label: '2', value: 2 },
-  { label: '3', value: 3 },
-  { label: '4', value: 4 },
-  { label: '5', value: 5 }
-]
-
 export const DEFAULT_DATA = [
   {
     title: '想要快速查看元件有哪些 props 可以傳入？',

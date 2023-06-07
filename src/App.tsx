@@ -8,6 +8,7 @@ import EyeIcon from '@ant-design/icons/EyeFilled'
 import ModalDetail from './components/ModalDetail'
 import FormComponent from './components/FormComponent/FormComponent'
 import { DEFAULT_DATA } from './contsants'
+import { FormData } from './types'
 
 function App() {
   //// refs
@@ -19,15 +20,12 @@ function App() {
 
   //// states
   const [messageApi, messageContext] = message.useMessage()
-  const [listData, setListData] = useState<(typeof formInitialValue.current)[]>(DEFAULT_DATA)
+  const [listData, setListData] = useState<FormData[]>(DEFAULT_DATA)
   const [modalVisible, setModalVisible] = useState<boolean>(false)
   const [modalDataIndex, setModalDataIndex] = useState<number | null>(null)
 
   //// handlers
-  function handleSubmit(
-    values: typeof formInitialValue.current,
-    form: FormInstance<typeof formInitialValue.current>
-  ): void {
+  function handleSubmit(values: FormData, form: FormInstance<FormData>): void {
     form.resetFields()
     const newListData = produce(listData, (draft) => {
       draft.push({ ...values })
@@ -51,7 +49,7 @@ function App() {
     toggleModalVisible()
   }
 
-  function handleModalSave(values: typeof formInitialValue.current) {
+  function handleModalSave(values: FormData) {
     const newListData = produce(listData, (draft) => {
       if (modalDataIndex !== null) {
         draft[modalDataIndex] = values
@@ -79,7 +77,14 @@ function App() {
       <Layout.Content className='layout-wrapper'>
         <h1 className='text-center font-weight-normal'>The Tricks of TypeScript.</h1>
         <div className='mb-30'>
-          <FormComponent initialData={formInitialValue.current} onSubmit={handleSubmit} />
+          <FormComponent
+            buttonPosition='top'
+            submitButtonText='Add'
+            showCancelButton={false}
+            initialData={formInitialValue.current}
+            onSubmit={handleSubmit}
+            onCancel={() => undefined}
+          />
         </div>
 
         {/* 查看 List 可傳入的 props */}

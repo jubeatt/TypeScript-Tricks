@@ -1,31 +1,23 @@
 import { Button, Col, Form, Input, Row, Select } from 'antd'
 import { FormInstance, useForm } from 'antd/es/form/Form'
 import { FormData } from '../../types'
-import { rules } from './rules'
-import { starsOption } from '../../contsants'
 
 type FormComponentProps = {
   initialData: FormData
-  buttonPosition?: 'top' | 'bottom'
-  submitButtonText?: string
-  showCancelButton?: boolean
+  buttonPosition: 'top' | 'bottom'
+  submitButtonText: string
+  showCancelButton: boolean
   onSubmit: (values: FormData, form: FormInstance<FormData>) => void
-  onCancel?: () => void
+  onCancel: () => void
 }
 
 const FormComponent = (props: FormComponentProps) => {
   //// props
-  const {
-    onSubmit,
-    onCancel = () => undefined,
-    initialData,
-    buttonPosition = 'top',
-    submitButtonText = 'Add',
-    showCancelButton = false
-  } = props
+  const { onSubmit, onCancel, initialData, buttonPosition, submitButtonText, showCancelButton } =
+    props
 
   //// states
-  const [form] = useForm<FormData>()
+  const [form] = useForm()
 
   //// handlers
   function handleSubmit(values: FormData, form: FormInstance<FormData>) {
@@ -59,13 +51,32 @@ const FormComponent = (props: FormComponentProps) => {
       )}
       <Row gutter={[10, 10]}>
         <Col span={24} sm={16}>
-          <Form.Item className='no-margin' name='title' label='Title' rules={rules.title}>
+          <Form.Item
+            className='no-margin'
+            name='title'
+            label='Title'
+            rules={[
+              {
+                required: true,
+                message: 'Title cannot be blank.'
+              }
+            ]}
+          >
             <Input />
           </Form.Item>
         </Col>
         <Col span={24} sm={8}>
           <Form.Item className='no-margin' name='rate' label='Rate'>
-            <Select className='w-full' options={starsOption} />
+            <Select
+              className='w-full'
+              options={[
+                { label: '1', value: 1 },
+                { label: '2', value: 2 },
+                { label: '3', value: 3 },
+                { label: '4', value: 4 },
+                { label: '5', value: 5 }
+              ]}
+            />
           </Form.Item>
         </Col>
         <Col span={24}>
@@ -73,7 +84,12 @@ const FormComponent = (props: FormComponentProps) => {
             className='no-margin'
             name='description'
             label='Description'
-            rules={rules.description}
+            rules={[
+              {
+                required: true,
+                message: 'Description cannot be blank.'
+              }
+            ]}
           >
             <Input.TextArea />
           </Form.Item>

@@ -13,6 +13,7 @@
   - [利用 keyof 取出物件的 key](#利用-keyof-取出物件的-key)
   - [用更聰明的方式來設定物件的 key（Mapped Type \& Index Signatures）](#用更聰明的方式來設定物件的-keymapped-type--index-signatures)
     - [實戰練習](#實戰練習)
+  - [結語](#結語)
   - [Bonus：好物推薦](#bonus好物推薦)
 
 ## 想要快速查看元件有哪些 props 可以傳入？
@@ -35,7 +36,7 @@
 
 這邊可以看到 Modal 中有兩個狀態，分別是「閱讀（view）」和「編輯（edit）」。
 
-如果我們想要用 `useState` 來儲存狀態的話，與其用一個很廣義的 `string` 來設定：
+如果我們想要用 `useState` 來儲存狀態的話，比起用一個很廣義的 `string` 來設定：
 
 ```typescript
 const DetailModal = () => {
@@ -43,7 +44,7 @@ const DetailModal = () => {
 }
 ```
 
-我更建議用「Union Type」的方式來設定：
+我會更建議用「Union Type」的方式來設定：
 
 ```typescript
 const DetailModal = () => {
@@ -63,7 +64,7 @@ const DetailModal = () => {
 
 ### 補充：也可以用 Enum 來改寫
 
-這邊只是補充另外一個方法，不過你必須自己去了解一下 Enum 的用法，這邊不會解釋太多。詳細可以參考 [TS 官方文件](https://www.typescriptlang.org/docs/handbook/enums.html)。
+這邊只是順便補充可以用 `enum` 這個東西，但你必須自己去了解一下 Enum 的用法，這邊不會解釋太多。詳細可以參考 [TS 官方文件](https://www.typescriptlang.org/docs/handbook/enums.html)。
 
 剛剛的例子也可以用 Enum 來改寫成這樣：
 
@@ -118,7 +119,7 @@ const myOptions = [
 
 > 看起來很正常啊，這樣子有什麼問題嗎？
 
-確實看起來沒什麼問題，但你有注意到這邊的 `myOptions` 其實沒有型別限制嗎？也就是說你想放什麼在裡面都可以，像是：
+確實看起來沒什麼問題，但你有注意到這邊的 `myOptions` 其實**沒有型別限制**嗎？也就是說你想放什麼在裡面都可以，像是：
 
 ```typescript
 const myOptions = [
@@ -173,7 +174,7 @@ const FormComponent = (props: FormComponentProps) => {
 
 ![any-type](/README-images/any-type.png)
 
-當你看到 `any` 的時候可以懷疑一下「是不是有哪裡的型別沒設定好」，因為大多數情況下 `any` 只該出現在特定場景（例如 `error`，或是~~在趕專案的同事~~~）。
+當你看到 `any` 的時候可以懷疑一下「是不是有哪裡的型別沒設定好」，因為大多數情況下 `any` 只該出現在特定場景（例如 `error`，或是~~在趕專案的同事~~）。
 
 以這個例子來說的話，原因是出在 `useForm` 在使用的時候其實是可以傳入泛型的，像這樣：
 
@@ -219,11 +220,11 @@ function App() {
 
 ![add-type-to-useFrom](/README-images//add-type-to-useFrom.png)
 
-這樣子你在操作表單的時候就能清楚知道有哪些值可以用。
+這樣子你在操作表單的時候就能很清楚的知道有哪些值可以用。
 
 ## 有些時候你可能不需要自己手刻每個型別（typeof & Type-Inference）
 
-這邊要先認識兩個東西，一個是關鍵字 `typeof`，一個是 Type-Inference 的觀念。
+這邊要先認識兩個東西，一個是關鍵字 `typeof`，一個是「Type-Inference」的觀念。
 
 我們先來看 Type-Inference 是什麼，其實只有一句話：
 
@@ -240,6 +241,8 @@ const [isMarried, setIsMarried] = useState(false) // isMarried 的型別會自�
 如果是物件的話，TS 也一樣會幫你推導出來：
 
 ![type-inference](/README-images/type-inference.png)
+
+這個就叫做「Type-Inference」。
 
 知道這個後可以做什麼呢？別急嘛，我們先來看 `typeof` 是什麼。
 
@@ -276,7 +279,7 @@ const person = {
 這樣子就~~免費~~獲得一個 `person` 的型別了！但我希望你注意到這邊的每一步流程是這樣子：
 
 1. `person` 先透過 Type-Inference 自動推導出 `{name: string, ...}` 這個型別
-2. 利用 typeof 把 `person` 的型別給萃取出來，丟給 `PersonType`
+2. 利用 `typeof` 把 `person` 的型別給萃取出來，丟給 `PersonType`
 
 希望這邊能讓你理解 `typeof` 跟 Type-Inference 的概念是什麼。
 
@@ -350,7 +353,7 @@ const FormComponent = () => {
 }
 ```
 
-不過如果套用剛剛的 `typeof` 跟 Type-Inference 的概念，我們其實不需要自己手刻出 `FormDateType` 這個型別，只要這樣做就好：
+不過如果套用剛剛的 `typeof` 跟 Type-Inference 的概念，你會發現我們其實根本不需要自己手刻出 `FormDateType` 這個型別，因為 `initialData` 就已經包含我們要的型別了，只要直接拿過來用就好：
 
 ```typescript
 const FormComponent = () => {
@@ -369,11 +372,11 @@ const FormComponent = () => {
 }
 ```
 
-如果你用 hover 來檢查一下就會發現跟剛剛是一模一樣的：
+可以用 hover 來檢查一下，就會發現跟剛剛的型別是一模一樣的：
 
 ![typeof-demo](/README-images/typeof-demo.png)
 
-所以下次當你懶的自己建立型別時，就可以像這樣子觀察看看是不是有現成的型別能用，再搭配 `typeof` 來萃取，我覺得這會是一個蠻省時間的做法。
+下次當你懶的自己建立型別時，可以像這樣子觀察看看是不是有現成的型別能用？再搭配 `typeof` 來萃取，我覺得這也是一個蠻省時間的做法。
 
 ## 當某個 props 是 optional，但又希望有預設值？
 
@@ -459,13 +462,19 @@ const FormComponent = ({
 }
 ```
 
-總之想用哪一種都可以，但我是比較偏好第一種方式啦，我覺得這樣子比較好讀。
+想用哪一種都可以，但我是比較偏好第一種方式啦，我覺得這樣子比較好讀。
 
 其實這邊只是想介紹預設值必須透過解構賦值來處理而已，因為我當初還真的不知道該怎麼用...
 
 ## 利用 keyof 取出物件的 key
 
-前面有介紹過 `typeof`，現在再多介紹一個 `keyof`。`keyof` 跟 `typeof` 的差別在於 `keyof` 是用在「型別」上，`typeof` 是用在「某個值」上，例如說：
+前面有介紹過 `typeof`，現在再多介紹一個 `keyof`。`keyof` 跟 `typeof` 的差別在於：
+
+- `keyof` 是用在「型別」上，`typeof` 是用在「某個值」上
+- `keyof` 是用在「型別」上，`typeof` 是用在「某個值」上
+- `keyof` 是用在「型別」上，`typeof` 是用在「某個值」上
+
+例如說：
 
 ```typescript
 const person = { name: 'Hello' }
@@ -477,7 +486,7 @@ type PersonKeys = keyof PersonType // 用在 PersonType 這個 "型別" 身上
 
 ![keyof-useage](/README-images/keyof-useage.png)
 
-這樣子 `PersonKeys` 就會變成 `"name" | "age" | "isMarried"` 這個 Union Type，不過眼尖的話能應個會發現 `keyof PersonType` 還後面多了一段 `& string` 這個東西，這是什麼？
+這樣子 `PersonKeys` 就會變成 `"name" | "age" | "isMarried"` 這個 Union Type，不過眼尖的人應該會發現 `keyof PersonType` 還後面多了一段 `& string` 這個東西，這是什麼？
 
 這邊要先解釋一個概念，就是一個物件的 key 其實可以是三種東西，分別為：
 
@@ -487,7 +496,7 @@ type PersonKeys = keyof PersonType // 用在 PersonType 這個 "型別" 身上
 
 ![keyof-any](/README-images/keyof-any.png)
 
-所以用 `keyof` 的時候如果沒有用 `&` 來告訴 TS「這邊的 key 都是 `string`」的話，它是沒辦法確定的，你在用 hover 看型別的時候就不會顯示出 `"name" | "age" | "isMarried"`，而是 `keyof PersonType`：
+所以用 `keyof` 的時候如果沒有用 `&` 來告訴 TS「這邊的 key 都是 `string`」的話，TS 就會因為沒辦法確定的關係，讓你在用 hover 看型別的時候不是顯示 `"name" | "age" | "isMarried"`，而是 `keyof PersonType`：
 
 ![keyof-without-modifier](/README-images/keyof-without-%26.png)
 
@@ -518,9 +527,13 @@ const demoObject: DemoType = {
 }
 ```
 
-我們先來看比較複雜的部分：`[key in 'name' | 'nickname' | 'interesting']`
+首先能看到整個 `DemoType` 是一個物件型別，接著再來看比較複雜的部分：
 
-首先整個 `[]` 中的部分是來「設定物件的 key 值」用的，這就跟你在 JS 創造物件的時候一樣，你應該知道 `key` 其實是可以用 `[]` 給包起來：
+```typescript
+[key in 'name' | 'nickname' | 'interesting']
+```
+
+這裡的 `[]` 是來「設定物件的 key 值」用的，這就跟你在 JS 創造物件的時候一樣，你應該知道 `key` 其實可以用 `[]` 給包起來：
 
 ```javascript
 const demoObject = {
@@ -658,21 +671,37 @@ const FormComponent = () => {
 接下來你可以先自己想想看，如果要達成上面的條件，`rules` 這個物件應該要怎麼寫才好？**（請先用純 JS 的方式改寫就好，先不用考慮 TS 的型別該怎麼設定）**
 
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 ... 我是防雷線
+
 
 答案是這樣子：
 
@@ -867,11 +896,35 @@ export const rules: RulesType = {
 
 我自己覺得這邊的概念稍微複雜一點，尤其是 Mapped Type 的部分。如果第一次看不太熟悉的話應該是正常的，建議可以多看幾次，應該就能慢慢能理解了。
 
-最後恭喜！這就是整篇文章想介紹跟 TS 有關的東西，希望各位都有從這裡學到一些東西～～～
+## 結語
+
+其實 TS 可以玩的東西還有很多，這邊只是介紹了一小角而已，其他還有很多你想不到的東西，例如：
+
+- 可以用判斷式（三元運算子）來設定型別
+- 可以用 template literal 來設定型別
+- 可以用遞迴的方式來設定型別
+- `extends` 不只能用在 `Interface`，其實還可以用在泛型
+- 泛型是可以加上預設值的
+- ...
+
+所以其實還有很多可以探索的地方，有興趣的話都歡迎去查一些相關資料，我覺得這樣子可以學到更多東西！
+
+其實我當初剛接觸 TS 的時候也是很多東西不會用，像是：
+
+- 為什麼別人都知道有些內建的型別是什麼？難道他們全部記下來了嗎？
+- 為什麼有時候會看到 `as HTMLElement` 這個東西，然後拿掉就會出現 TS 錯誤訊息？
+- 當某個型別是 optional 的時候，很容易出現各種 TS 錯誤，該怎麼解決？
+- 怎麼善用 utility type 來產生我想要的型別？
+- 對泛型不夠熟，導致很多東西都變成 `any`？
+- ...
+
+所以這篇文章就是從自己以前最常碰到的疑問下去構想的，我相信應該不是只有我有碰過這些問題。雖然網路上的資源很多，但還是有很多問題其實是在實際做的時候才會碰到，所以不見得都能夠在網路上輕易找到答案，畢竟本來就不是每個知道的人都會特地寫一篇文章來解釋給你聽。
+
+雖然我一點也不覺得自己有特別厲害，但還是希望各位有從這裡學到一些東西，或是有帶給你一些新的想法，我覺得這樣子就夠了！
 
 ## Bonus：好物推薦
 
-這邊是我自己推薦的一些好東西，我覺得還蠻方便的～
+這邊是我自己蠻推薦的一些好東西，我覺得還蠻不錯用的，所以就放在這邊吧。
 
 - [Cheat Sheet](https://www.typescriptlang.org/cheatsheets) - 快速查表
 - [pretty-ts-errors](https://marketplace.visualstudio.com/items?itemName=yoavbls.pretty-ts-errors) - VSCode 套件，可以讓錯誤訊息更好讀

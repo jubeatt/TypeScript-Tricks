@@ -12,7 +12,7 @@ import { FormData } from './types'
 
 function App() {
   //// refs
-  const formInitialValue = useRef({
+  const formInitialValue = useRef<FormData>({
     title: '',
     description: '',
     rate: 3
